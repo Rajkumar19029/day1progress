@@ -1,32 +1,25 @@
-package com.edutech.progressive.entity;
+package com.wecp.progressive.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
+import javax.persistence.*;
 
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
-    @ManyToOne(cascade=CascadeType.MERGE)
-    @JoinColumn(name="warehouseId")
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "warehouseId")
     private Warehouse warehouse;
     private String productName;
     private String productDescription;
     private int quantity;
     private Long price;
-    public Product(){
 
+    public Product() {
     }
 
-    public Product(int productId, int warehouseId, String productName, String productDescription, int quantity,
-            Long price) {
+    public Product(int productId, int warehouseId, String productName, String productDescription, int quantity, Long price) {
         this.productId = productId;
         this.warehouse.setWarehouseId(warehouseId);
         this.productName = productName;
@@ -82,7 +75,4 @@ public class Product {
     public void setPrice(Long price) {
         this.price = price;
     }
-    
-    
-    
 }
