@@ -1,4 +1,4 @@
-package com.wecp.progressive.config;
+package com.edutech.progressive.config;
 
 import java.io.IOException;
 import java.io.InputStream;

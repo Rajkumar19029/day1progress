@@ -1,9 +1,9 @@
-package com.wecp.progressive.controller;
+package com.edutech.progressive.controller;
 
-import com.wecp.progressive.entity.Product;
-import com.wecp.progressive.exception.InsufficientCapacityException;
-import com.wecp.progressive.exception.SupplierDoesNotExistException;
-import com.wecp.progressive.service.impl.ProductServiceImplJpa;
+import com.edutech.progressive.entity.Product;
+import com.edutech.progressive.exception.InsufficientCapacityException;
+import com.edutech.progressive.exception.SupplierDoesNotExistException;
+import com.edutech.progressive.service.impl.ProductServiceImplJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
