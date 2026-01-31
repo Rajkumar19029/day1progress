@@ -2,7 +2,6 @@ package com.edutech.progressive.service.impl;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,8 +26,9 @@ public class SupplierServiceImplArraylist implements SupplierService {
 
     @Override
     public List<Supplier> getAllSuppliersSortedByName() {
-        Collections.sort(supplierList,Comparator.comparing(Supplier::getSupplierName));
-        return supplierList;
+        List<Supplier> sortedSupplier=supplierList;
+        sortedSupplier.sort(Comparator.comparing(Supplier::getSupplierName));
+        return sortedSupplier;
     }
 
     public void emptyArrayList(){

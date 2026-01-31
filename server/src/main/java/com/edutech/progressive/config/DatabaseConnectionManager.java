@@ -1,6 +1,4 @@
 package com.edutech.progressive.config;
-
-
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;

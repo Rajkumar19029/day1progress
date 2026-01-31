@@ -14,6 +14,7 @@ import com.edutech.progressive.service.ProductService;
 public class ProductServiceImplJpa implements ProductService {
     @Autowired
     ProductRepository productRepository;
+    
     @Override
     public List<Product> getAllProducts() throws SQLException {
         return productRepository.findAll();
@@ -38,7 +39,7 @@ public class ProductServiceImplJpa implements ProductService {
         oldProduct.setProductDescription(product.getProductDescription());
         oldProduct.setProductName(product.getProductName());
         oldProduct.setQuantity(product.getQuantity());
-        oldProduct.setWarehouseId(product.getWarehouseId());
+        oldProduct.setWarehouse(product.getWarehouse());
         productRepository.save(oldProduct);
     }
 

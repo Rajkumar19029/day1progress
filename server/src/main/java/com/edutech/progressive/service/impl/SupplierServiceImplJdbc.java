@@ -1,6 +1,7 @@
 package com.edutech.progressive.service.impl;
 
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 
 import com.edutech.progressive.dao.SupplierDAO;
@@ -26,7 +27,26 @@ public class SupplierServiceImplJdbc implements SupplierService {
 
     @Override
     public List<Supplier> getAllSuppliersSortedByName() throws SQLException {
-        return supplierDAO.getAllSuppliers();
+        List<Supplier> sortedSuppliers=supplierDAO.getAllSuppliers();
+        if(sortedSuppliers!=null){
+            sortedSuppliers.sort(Comparator.comparing(Supplier::getSupplierName));
+        }
+        return sortedSuppliers;
+    }
+
+    @Override
+    public void updateSupplier(Supplier supplier) throws SQLException{
+        supplierDAO.updateSupplier(supplier);
+    }
+
+    @Override
+    public void deleteSupplier(int supplier_id) throws SQLException{
+        supplierDAO.deleteSupplier(supplier_id);
+    }
+
+    @Override
+    public Supplier getSupplierById(int supplier_id) throws SQLException{
+        return supplierDAO.getSupplierById(supplier_id);
     }
 
 }

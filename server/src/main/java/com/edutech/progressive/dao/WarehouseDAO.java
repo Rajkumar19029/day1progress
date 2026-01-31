@@ -11,5 +11,4 @@ public interface WarehouseDAO {
     void updateWarehouse (Warehouse warehouse)throws SQLException;
     void deleteWarehouse (int warehouseId)throws SQLException;
     List<Warehouse> getAllWarehouse()throws SQLException;
-    List<Warehouse> getAllWarehouseSortedByBalance() throws SQLException;
 }

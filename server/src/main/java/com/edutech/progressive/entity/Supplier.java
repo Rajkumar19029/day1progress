@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 @Entity
-public class Supplier implements Comparable<Supplier>,Comparator<Supplier> {
+public class Supplier implements Comparable<Supplier> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int supplierId;
@@ -22,17 +22,6 @@ public class Supplier implements Comparable<Supplier>,Comparator<Supplier> {
 
     }
     
-    public Supplier(String supplierName, String email, String phone, String address, String username, String password,
-            String role) {
-        this.supplierName = supplierName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
     public Supplier(int supplierId, String supplierName, String email, String phone, String address, String username,
             String password, String role) {
         this.supplierId = supplierId;
@@ -97,16 +86,7 @@ public class Supplier implements Comparable<Supplier>,Comparator<Supplier> {
     public int compareTo(Supplier o) {
         return this.supplierName.compareTo(o.supplierName);
     }
-    @Override
-    public int compare(Supplier arg0, Supplier arg1) {
-        return arg0.supplierName.compareTo(arg1.supplierName);
-    }
-    @Override
-    public String toString() {
-        return "Supplier [supplierId=" + supplierId + ", supplierName=" + supplierName + ", email=" + email + ", phone="
-                + phone + ", address=" + address + ", username=" + username + ", password=" + password + ", role="
-                + role + "]";
-    }
+    
     
     
 }

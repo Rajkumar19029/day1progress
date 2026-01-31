@@ -1,7 +1,6 @@
 package com.edutech.progressive.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,8 +22,9 @@ public class WarehouseServiceImplArraylist implements WarehouseService {
 
     @Override
     public List<Warehouse> getWarehousesSortedByCapacity() {
-        Collections.sort(warehouseList,Comparator.comparing(Warehouse::getCapacity));
-        return warehouseList;
+        List<Warehouse> sortWarehouses=warehouseList;
+        sortWarehouses.sort(Comparator.comparing(Warehouse::getCapacity));
+        return sortWarehouses;
     }
     public void emptyArrayList(){
         warehouseList.clear();

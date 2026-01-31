@@ -24,13 +24,13 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public int addSupplier(Supplier supplier) throws SQLException {
-        String sql="Insert into supplier(supplier_name,email,username,password,phone,address,role) values(?,?,?,?,?,?,?)";
+        String sql="Insert into supplier(supplier_name,email,phone,username,password,address,role) values(?,?,?,?,?,?,?)";
         PreparedStatement ps=connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, supplier.getSupplierName());
         ps.setString(2, supplier.getEmail());
-        ps.setString(3, supplier.getUsername());
-        ps.setString(4, supplier.getPassword());
-        ps.setString(5, supplier.getPhone());
+        ps.setString(3, supplier.getPhone());
+        ps.setString(4, supplier.getUsername());
+        ps.setString(5, supplier.getPassword());
         ps.setString(6, supplier.getAddress());
         ps.setString(7, supplier.getRole());
         ps.executeUpdate();
@@ -51,20 +51,20 @@ public class SupplierDAOImpl implements SupplierDAO {
         ps.setInt(1, supplierId);
         ResultSet rs=ps.executeQuery();
         if(rs.next()){
-            supplier=new Supplier(supplierId, rs.getString("supplier_name"), rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("phone"), rs.getString("address"), rs.getString("role"));
+            supplier=new Supplier(supplierId, rs.getString("supplier_name"), rs.getString("email"), rs.getString("phone"), rs.getString("username"), rs.getString("password"), rs.getString("address"), rs.getString("role"));
         }
         return supplier;
     }
 
     @Override
     public void updateSupplier(Supplier supplier) throws SQLException {
-        String sql="Update supplier set supplier_name=?,email=?,username=?,password=?,phone=?,address=?,role=? where supplier_id=?";
+        String sql="Update supplier set supplier_name=?,email=?,phone=?,username=?,password=?,address=?,role=? where supplier_id=?";
         PreparedStatement ps=connection.prepareStatement(sql);
         ps.setString(1, supplier.getSupplierName());
         ps.setString(2, supplier.getEmail());
-        ps.setString(3, supplier.getUsername());
-        ps.setString(4, supplier.getPassword());
-        ps.setString(5, supplier.getPhone());
+        ps.setString(3, supplier.getPhone());
+        ps.setString(4, supplier.getUsername());
+        ps.setString(5, supplier.getPassword());
         ps.setString(6, supplier.getAddress());
         ps.setString(7, supplier.getRole());
         ps.setInt(8, supplier.getSupplierId());
@@ -82,11 +82,11 @@ public class SupplierDAOImpl implements SupplierDAO {
     @Override
     public List<Supplier> getAllSuppliers() throws SQLException {
         List<Supplier> suppliers=new ArrayList<>();
-        String sql="select * from supplier order by supplier_name";
+        String sql="select * from supplier";
         PreparedStatement ps=connection.prepareStatement(sql);
         ResultSet rs=ps.executeQuery();
         while(rs.next()){
-            suppliers.add(new Supplier(rs.getInt("supplier_id"), rs.getString("supplier_name"), rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("phone"), rs.getString("address"), rs.getString("role")));
+            suppliers.add(new Supplier(rs.getInt("supplier_id"), rs.getString("supplier_name"), rs.getString("email"),rs.getString("phone"), rs.getString("username"), rs.getString("password"),  rs.getString("address"), rs.getString("role")));
         }
         return suppliers;
     }

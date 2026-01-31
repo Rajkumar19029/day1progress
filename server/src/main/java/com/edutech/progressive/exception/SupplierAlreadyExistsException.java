@@ -1,4 +1,4 @@
 package com.edutech.progressive.exception;
 
-public class SupplierAlreadyExistsException {
+public class SupplierAlreadyExistsException extends RuntimeException{
 }

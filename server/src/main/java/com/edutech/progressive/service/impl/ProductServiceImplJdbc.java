@@ -8,7 +8,7 @@ import com.edutech.progressive.entity.Product;
 import com.edutech.progressive.service.ProductService;
 
 public class ProductServiceImplJdbc implements ProductService {
-    ProductDAO productDAO;
+    private ProductDAO productDAO;
     public ProductServiceImplJdbc(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }

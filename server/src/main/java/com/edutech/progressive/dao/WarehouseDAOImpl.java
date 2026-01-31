@@ -25,10 +25,10 @@ public class WarehouseDAOImpl implements WarehouseDAO {
     public int addWarehouse(Warehouse warehouse) throws SQLException {
         String sql = "Insert into warehouse(supplier_id,warehouse_name,location,capacity) values(?,?,?,?)";
         PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, warehouse.getSupplierId());
+        ps.setInt(1, warehouse.getSupplier().getSupplierId());
         ps.setString(2, warehouse.getWarehouseName());
         ps.setString(3, warehouse.getLocation());
-        ps.setInt(4, warehouse.getCapacity());
+        ps.setDouble(4, warehouse.getCapacity());
         ps.executeUpdate();
         ResultSet rs=ps.getGeneratedKeys();
         int generatedId=-1;
@@ -57,7 +57,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
     public void updateWarehouse(Warehouse warehouse) throws SQLException {
         String sql = "Update warehouse set supplier_id=?,warehouse_name=?,location=?,capacity=? where warehouse_id=?";
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, warehouse.getSupplierId());
+        ps.setInt(1, warehouse.getSupplier().getSupplierId());
         ps.setString(2, warehouse.getWarehouseName());
         ps.setString(3, warehouse.getLocation());
         ps.setInt(4, warehouse.getCapacity());
@@ -76,19 +76,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
     @Override
     public List<Warehouse> getAllWarehouse() throws SQLException {
         List<Warehouse> warehouses = new ArrayList<>();
-        String sql = "Select * from warehouse order by capacity";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            warehouses.add(new Warehouse(rs.getInt("warehouse_id"), rs.getInt("supplier_id"),
-                    rs.getString("warehouse_name"), rs.getString("location"), rs.getInt("capacity")));
-        }
-        return warehouses;
-    }
-    @Override
-    public List<Warehouse> getAllWarehouseSortedByBalance() throws SQLException {
-        List<Warehouse> warehouses = new ArrayList<>();
-        String sql = "Select * from warehouse order by balance";
+        String sql = "Select * from warehouse";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
