@@ -1,6 +1,6 @@
-package com.wecp.progressive.repository;
+package com.edutech.progressive.repository;
 
-import com.wecp.progressive.entity.Supplier;
+import com.edutech.progressive.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
