@@ -12,49 +12,60 @@ import com.edutech.progressive.service.WarehouseService;
 
 @Service
 public class WarehouseServiceImplJpa implements WarehouseService {
+
     @Autowired
-    WarehouseRepository warehouseRepository;
+    ProductRepository productRepository;
+
+    @Autowired
+    ShipmentRepository shipmentRepository;
+
+    private WarehouseRepository warehouseRepository;
+
+    @Autowired
+    public WarehouseServiceImplJpa(WarehouseRepository warehouseRepository) {
+        this.warehouseRepository = warehouseRepository;
+    }
+
     @Override
     public List<Warehouse> getAllWarehouses() throws SQLException {
-        return null;
-        // return warehouseRepository.findAll();
+        return warehouseRepository.findAll();
     }
 
     @Override
     public int addWarehouse(Warehouse warehouse) throws SQLException {
-        return -1;
-        // warehouseRepository.save(warehouse);
-        // return warehouse.getWarehouseId();
+        return warehouseRepository.save(warehouse).getWarehouseId();
     }
 
     @Override
     public List<Warehouse> getWarehousesSortedByCapacity() throws SQLException {
-        return null;
-        // List<Warehouse> warehouseList=warehouseRepository.findAll();
-        // Collections.sort(warehouseList);
-        // return warehouseList;
+        List<Warehouse> sortedWarehouses = warehouseRepository.findAll();
+        Collections.sort(sortedWarehouses);
+        return sortedWarehouses;
     }
 
-    public void updateWarehouse(Warehouse warehouse){
-        // Warehouse oldWarehouse=getWarehouseById(warehouse.getWarehouseId());
-        // oldWarehouse.setCapacity(warehouse.getCapacity());
-        // oldWarehouse.setLocation(warehouse.getLocation());
-        // oldWarehouse.setSupplierId(warehouse.getSupplierId());
-        // oldWarehouse.setWarehouseName(warehouse.getWarehouseName());
-        // warehouseRepository.save(oldWarehouse);
+    @Override
+    public void updateWarehouse(Warehouse warehouse) throws SQLException {
+        warehouseRepository.save(warehouse);
     }
 
-    public void deleteWarehouse(int warehouseId){
-        // warehouseRepository.deleteById(warehouseId);
+    @Override
+    public void deleteWarehouse(int warehouseId) throws SQLException {
+        shipmentRepository.deleteByWarehouseId(warehouseId);
+        productRepository.deleteByWarehouseId(warehouseId);
+        warehouseRepository.deleteById(warehouseId);
     }
 
-    public Warehouse getWarehouseById(int warehouseId){
-        return null;
-        // return warehouseRepository.findById(warehouseId).get();
+    @Override
+    public Warehouse getWarehouseById(int warehouseId) throws SQLException {
+        return warehouseRepository.findByWarehouseId(warehouseId);
     }
 
-    public List<Warehouse> getWarehouseBySupplier(int supplierId){
-        return null;
+    @Override
+    public List<Warehouse> getWarehouseBySupplier(int supplierId) throws NoWarehouseFoundForSupplierException {
+        List<Warehouse> warehouseList = warehouseRepository.findAllBySupplier_SupplierId(supplierId);
+        if (warehouseList.isEmpty()) {
+            throw new NoWarehouseFoundForSupplierException("No warehouse found with the given supplier Id");
+        }
+        return warehouseList;
     }
-
 }
