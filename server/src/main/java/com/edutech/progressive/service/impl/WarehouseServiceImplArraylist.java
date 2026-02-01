@@ -26,6 +26,7 @@ public class WarehouseServiceImplArraylist implements WarehouseService {
         sortWarehouses.sort(Comparator.comparing(Warehouse::getCapacity));
         return sortWarehouses;
     }
+    @Override
     public void emptyArrayList(){
         warehouseList.clear();
     }

@@ -34,7 +34,7 @@ public class WarehouseController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,7 +55,7 @@ public class WarehouseController {
             warehouse.setWarehouseId(warehouseId);
             warehouseServiceImplJpa.updateWarehouse(warehouse);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -65,7 +65,7 @@ public class WarehouseController {
         try {
             warehouseServiceImplJpa.deleteWarehouse(warehouseId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

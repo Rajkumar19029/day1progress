@@ -30,7 +30,7 @@ public class SupplierServiceImplArraylist implements SupplierService {
         sortedSupplier.sort(Comparator.comparing(Supplier::getSupplierName));
         return sortedSupplier;
     }
-
+    @Override
     public void emptyArrayList(){
         supplierList.clear();
     }

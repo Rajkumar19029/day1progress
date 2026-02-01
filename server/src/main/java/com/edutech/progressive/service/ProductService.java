@@ -18,7 +18,7 @@ public interface ProductService {
     void deleteProduct(int productId)throws SQLException;
 
     
-    default List<Product> getAllProductByWarehouse(int warehouseId) {
+    default List<Product> getAllProductByWarehouse(int warehouseId) throws SQLException {
         return null;
     }
 }

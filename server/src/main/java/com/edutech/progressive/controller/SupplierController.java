@@ -72,7 +72,7 @@ public class SupplierController {
         try {
             supplierServiceImplJpa.deleteSupplier(supplierId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
