@@ -12,9 +12,20 @@ import com.edutech.progressive.service.ProductService;
 
 @Service
 public class ProductServiceImplJpa implements ProductService {
+
+    private final ProductRepository productRepository;
+
     @Autowired
-    ProductRepository productRepository;
-    
+    WarehouseRepository warehouseRepository;
+
+    @Autowired
+    ShipmentRepository shipmentRepository;
+
+    @Autowired
+    public ProductServiceImplJpa(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Override
     public List<Product> getAllProducts() throws SQLException {
         return productRepository.findAll();
@@ -22,34 +33,34 @@ public class ProductServiceImplJpa implements ProductService {
 
     @Override
     public Product getProductById(int productId) throws SQLException {
-        return productRepository.findById(productId).orElseThrow();
+        return productRepository.findByProductId(productId);
     }
 
     @Override
-    public int addProduct(Product product) throws SQLException {
-        
-        productRepository.save(product);
-        return product.getProductId();
+    public int addProduct(Product product) throws InsufficientCapacityException {
+        Warehouse warehouse = warehouseRepository.findByWarehouseId(product.getWarehouse().getWarehouseId());
+        int productCount = productRepository.countByWarehouse_WarehouseId(warehouse.getWarehouseId());
+        if (warehouse.getCapacity() == productCount) {
+            throw new InsufficientCapacityException(
+                    "Warehouse with ID " + warehouse.getWarehouseId() + " has reached its maximum capacity of " + warehouse.getCapacity() + " products."
+            );
+        }
+        return productRepository.save(product).getProductId();
     }
 
     @Override
     public void updateProduct(Product product) throws SQLException {
-        Product oldProduct=getProductById(product.getProductId());
-        oldProduct.setPrice(product.getPrice());
-        oldProduct.setProductDescription(product.getProductDescription());
-        oldProduct.setProductName(product.getProductName());
-        oldProduct.setQuantity(product.getQuantity());
-        oldProduct.setWarehouse(product.getWarehouse());
-        productRepository.save(oldProduct);
+        productRepository.save(product).getProductId();
     }
 
     @Override
     public void deleteProduct(int productId) throws SQLException {
+        shipmentRepository.deleteByProductId(productId);
         productRepository.deleteById(productId);
     }
 
-    public List<Product> getAllProductByWarehouse(int warehouseId){
-        return null;
+    @Override
+    public List<Product> getAllProductByWarehouse(int warehouseId) throws SQLException {
+        return productRepository.findAllByWarehouse_WarehouseId(warehouseId);
     }
-
 }
