@@ -2,7 +2,7 @@ package com.edutech.progressive.controller;
 
 import com.edutech.progressive.entity.Product;
 import com.edutech.progressive.exception.InsufficientCapacityException;
-import com.edutech.progressive.exception.SupplierDoesNotExistException;
+
 import com.edutech.progressive.service.impl.ProductServiceImplJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

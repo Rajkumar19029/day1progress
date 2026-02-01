@@ -22,7 +22,7 @@ public class ProductServiceImplJpa implements ProductService {
 
     @Override
     public Product getProductById(int productId) throws SQLException {
-        return productRepository.findById(productId).orElseThrow();
+        return productRepository.findByProductId(productId);
     }
 
     @Override

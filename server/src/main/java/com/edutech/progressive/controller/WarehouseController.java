@@ -1,9 +1,8 @@
 package com.edutech.progressive.controller;
 
-import com.edutech.progressive.entity.Product;
+
 import com.edutech.progressive.entity.Warehouse;
 import com.edutech.progressive.exception.NoWarehouseFoundForSupplierException;
-import com.edutech.progressive.exception.SupplierDoesNotExistException;
 import com.edutech.progressive.service.impl.WarehouseServiceImplJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +78,6 @@ public class WarehouseController {
         } catch (NoWarehouseFoundForSupplierException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            // Return a generic error message for any other exceptions
             return new ResponseEntity<>("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
