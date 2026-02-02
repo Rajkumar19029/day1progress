@@ -1,0 +1,12 @@
+GET   https://orchardsolvefour.lntedutech.com/project/8788/proxy/3000/supplier
+Content-Type: application/json
+
+{
+    "supplierName":"uraj",
+    "email":"@12gmail.com",
+    "phone":"99576477485",
+    "address":"ghan mum",
+    "username":"mfsdg",
+    "password":"74tr",
+    "role":"jgfsfe"
+}
