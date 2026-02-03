@@ -8,9 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.edutech.progressive.config.DatabaseConnectionManager;
 import com.edutech.progressive.entity.Warehouse;
-
+@Repository
 public class WarehouseDAOImpl implements WarehouseDAO{
 
    public WarehouseDAOImpl() {}
@@ -21,7 +23,7 @@ public class WarehouseDAOImpl implements WarehouseDAO{
                 "INSERT INTO warehouse (supplier_id, warehouse_name, location, capacity) VALUES (?,?,?,?)",
                 Statement.RETURN_GENERATED_KEYS);
 
-        ps.setInt(1, warehouse.getSupplierId());
+        ps.setInt(1, warehouse.getSupplier().getSupplierId());
         ps.setString(2, warehouse.getWarehouseName());
         ps.setString(3, warehouse.getLocation());
         ps.setInt(4, warehouse.getCapacity());
@@ -36,21 +38,16 @@ public class WarehouseDAOImpl implements WarehouseDAO{
     }
 
     public Warehouse getWarehouseById(int warehouseId) throws SQLException {
+        Warehouse warehouse=null;
         Connection con = DatabaseConnectionManager.getConnection();
         PreparedStatement ps = con.prepareStatement("SELECT * FROM warehouse WHERE warehouse_id=?");
         ps.setInt(1, warehouseId);
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            Warehouse w = new Warehouse();
-            w.setWarehouseId(rs.getInt("warehouse_id"));
-            w.setSupplierId(rs.getInt("supplier_id"));
-            w.setWarehouseName(rs.getString("warehouse_name"));
-            w.setLocation(rs.getString("location"));
-            w.setCapacity(rs.getInt("capacity"));
-            return w;
+            warehouse=new Warehouse(warehouseId,rs.getInt("supplier_id"),rs.getString("warehouse_name"),rs.getString("location"),rs.getInt("capacity"));
         }
-        return null;
+        return warehouse;
     }
 
     public void updateWarehouse(Warehouse warehouse) throws SQLException {
@@ -77,13 +74,7 @@ public class WarehouseDAOImpl implements WarehouseDAO{
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            Warehouse w = new Warehouse();
-            w.setWarehouseId(rs.getInt("warehouse_id"));
-            w.setSupplierId(rs.getInt("supplier_id"));
-            w.setWarehouseName(rs.getString("warehouse_name"));
-            w.setLocation(rs.getString("location"));
-            w.setCapacity(rs.getInt("capacity"));
-            list.add(w);
+           list.add(new Warehouse(rs.getInt("warehouse_id"),rs.getInt("supplier_id"),rs.getString("warehouse_name"),rs.getString("location"),rs.getInt("capacity")));
         }
         return list;
     }
