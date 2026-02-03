@@ -4,17 +4,20 @@ import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 
+
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.dao.SupplierDAO;
 import com.edutech.progressive.entity.Supplier;
 import com.edutech.progressive.service.SupplierService;
-
+@Service
 public class SupplierServiceImplJdbc implements SupplierService {
     SupplierDAO supplierDAO;
-    
     public SupplierServiceImplJdbc(SupplierDAO supplierDAO) {
         this.supplierDAO = supplierDAO;
     }
-
+    
+    
     @Override
     public List<Supplier> getAllSuppliers() throws SQLException {
         return supplierDAO.getAllSuppliers();

@@ -4,15 +4,20 @@ import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.dao.WarehouseDAO;
 import com.edutech.progressive.entity.Warehouse;
 import com.edutech.progressive.service.WarehouseService;
-
+@Service
 public class WarehouseServiceImplJdbc implements WarehouseService {
     private WarehouseDAO warehouseDAO;
     
     public WarehouseServiceImplJdbc(WarehouseDAO warehouseDAO) {
         this.warehouseDAO = warehouseDAO;
+    }
+    public WarehouseServiceImplJdbc(){
+        
     }
     @Override
     public List<Warehouse> getAllWarehouses() throws SQLException {

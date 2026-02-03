@@ -3,14 +3,19 @@ package com.edutech.progressive.service.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.dao.ProductDAO;
 import com.edutech.progressive.entity.Product;
 import com.edutech.progressive.service.ProductService;
-
+@Service
 public class ProductServiceImplJdbc implements ProductService {
     private ProductDAO productDAO;
     public ProductServiceImplJdbc(ProductDAO productDAO) {
         this.productDAO = productDAO;
+    }
+    public ProductServiceImplJdbc(){
+        
     }
     @Override
     public List<Product> getAllProducts() throws SQLException {
