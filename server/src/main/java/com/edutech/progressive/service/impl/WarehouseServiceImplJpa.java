@@ -2,18 +2,21 @@ package com.edutech.progressive.service.impl;
 
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Warehouse;
+import com.edutech.progressive.exception.NoWarehouseFoundForSupplierException;
+import com.edutech.progressive.repository.ProductRepository;
 import com.edutech.progressive.repository.WarehouseRepository;
 import com.edutech.progressive.service.WarehouseService;
 @Service
 public class WarehouseServiceImplJpa implements WarehouseService {
+    @Autowired
+    ProductRepository productRepository;
     private WarehouseRepository warehouseRepository;
 
     @Autowired
@@ -45,6 +48,7 @@ public class WarehouseServiceImplJpa implements WarehouseService {
 
     @Override
     public void deleteWarehouse(int warehouseId) throws SQLException {
+        productRepository.deleteByWarehouseId(warehouseId);
         warehouseRepository.deleteById(warehouseId);
     }
 
@@ -54,9 +58,11 @@ public class WarehouseServiceImplJpa implements WarehouseService {
     }
 
     @Override
-    public List<Warehouse> getWarehouseBySupplier(int supplierId)  {
+    public List<Warehouse> getWarehouseBySupplier(int supplierId) throws NoWarehouseFoundForSupplierException {
         List<Warehouse> warehouseList = warehouseRepository.findAllBySupplier_SupplierId(supplierId);
-        
+        if(warehouseList.isEmpty()){
+            throw new NoWarehouseFoundForSupplierException("Warehouse not found");
+        }
         return warehouseList;
     }
 }

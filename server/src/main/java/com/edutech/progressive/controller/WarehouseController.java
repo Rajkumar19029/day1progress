@@ -1,7 +1,7 @@
 package com.edutech.progressive.controller;
 
 import com.edutech.progressive.entity.Warehouse;
-
+import com.edutech.progressive.exception.NoWarehouseFoundForSupplierException;
 import com.edutech.progressive.service.impl.WarehouseServiceImplJpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,30 +31,56 @@ public class WarehouseController {
     }
 
     @GetMapping("/{warehouseId}")
-    public ResponseEntity<Warehouse> getWarehouseById(@PathVariable int warehouseId) throws SQLException {
-        return new ResponseEntity<>(warehouseServiceImplJpa.getWarehouseById(warehouseId), HttpStatus.OK);
+    public ResponseEntity<Warehouse> getWarehouseById(@PathVariable int warehouseId)  {
+        try {
+            return new ResponseEntity<>(warehouseServiceImplJpa.getWarehouseById(warehouseId), HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addWarehouse(@RequestBody Warehouse warehouse) throws SQLException {
-        return new ResponseEntity<>(warehouseServiceImplJpa.addWarehouse(warehouse), HttpStatus.CREATED);
+    public ResponseEntity<Integer> addWarehouse(@RequestBody Warehouse warehouse) {
+        try {
+            return new ResponseEntity<>(warehouseServiceImplJpa.addWarehouse(warehouse), HttpStatus.CREATED);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{warehouseId}")
-    public ResponseEntity<Void> updateWarehouse(@PathVariable int warehouseId, @RequestBody Warehouse warehouse) throws SQLException {
+    public ResponseEntity<Void> updateWarehouse(@PathVariable int warehouseId, @RequestBody Warehouse warehouse) {
         warehouse.setWarehouseId(warehouseId);
-        warehouseServiceImplJpa.updateWarehouse(warehouse);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            warehouseServiceImplJpa.updateWarehouse(warehouse);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (SQLException e) {
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
     }
 
     @DeleteMapping("/{warehouseId}")
-    public ResponseEntity<Void> deleteWarehouse(@PathVariable int warehouseId) throws SQLException {
-        warehouseServiceImplJpa.deleteWarehouse(warehouseId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable int warehouseId) {
+        
+         try {
+            warehouseServiceImplJpa.deleteWarehouse(warehouseId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (SQLException e) {
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/supplier/{supplierId}")
-    public ResponseEntity<List<Warehouse>> getWarehousesBySupplier(@PathVariable int supplierId) throws SQLException {
-        return new ResponseEntity<>(warehouseServiceImplJpa.getWarehouseBySupplier(supplierId), HttpStatus.OK);
+    public ResponseEntity<?> getWarehousesBySupplier(@PathVariable int supplierId) {
+        try {
+            return new ResponseEntity<>(warehouseServiceImplJpa.getWarehouseBySupplier(supplierId), HttpStatus.OK);
+        }catch(NoWarehouseFoundForSupplierException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
     }
 }
